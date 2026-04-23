@@ -1,0 +1,22 @@
+# Dependencies (Frontend & Backend)
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Các biến môi trường và thông tin bảo mật
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Các thư mục Build & Compiled
+dist/
+build/
+.next/
+
+# Hệ điều hành
+.DS_Store
