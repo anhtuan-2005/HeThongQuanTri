@@ -1,20 +1,18 @@
 const mysql = require("mysql2");
 require("dotenv").config();
 
-const db = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "123456",
-  database: process.env.DB_NAME || "appdb",
-  port: process.env.DB_PORT || 3306 // Thêm dòng này để nhận cổng từ Railway
+// Thêm log này để kiểm tra xem Vercel đã đọc được biến chưa
+console.log("Checking DB Port:", process.env.DB_PORT); 
+
+const db = mysql.createPool({ // Chuyển từ createConnection sang createPool để ổn định hơn
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: Number(process.env.DB_PORT) || 55683, // Ép kiểu số cho Port
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-db.connect((err) => {
-  if (err) {
-    console.log("❌ DB Error", err);
-  } else {
-    console.log("✅ MySQL Connected");
-  }
-});
-
-module.exports = db;
+module.exports = db.promise(); // Dùng promise để tránh lỗi callback
